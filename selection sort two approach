@@ -1,0 +1,58 @@
+#include<iostream>
+using namespace std;
+int selectionsort(int arr[],int len)
+{
+    for (int i = 0; i < len-1; i++)
+    {
+        int min=i;
+        for (int j = i+1; j <len ; j++)
+        {
+            if (arr[j]<arr[min])
+            {
+                min=j;
+                
+            }
+            
+        }
+        swap(arr[i],arr[min]);
+    }
+    for (int i = 0; i < len; i++)
+    {
+        cout<<arr[i]<<endl;
+    }
+    
+} 
+
+bool twopointer(int arr[],int len,int x){
+    int i=0,j=len-1;
+    while (i<j)
+    {
+         if(arr[i]+arr[j]==x){
+ cout<<"found it"<<arr[i]<<" +"<<arr[j]<<"="<<x<<endl;
+            return true;
+         }
+         else if (arr[i]+arr[j]<x)
+         {
+            i++;
+         }
+         else
+         {
+            j--;
+         }
+    }
+    return false;
+    
+}
+int main(){
+    int arr[]={10,20,35,55,0,45};
+    int len=sizeof(arr)/sizeof(arr[0]);
+     selectionsort(arr,len);
+    if(twopointer(arr,len,55)){
+        cout<<"found it"<<endl;
+    }
+    else
+    {
+        cout<<"not found"<<endl;
+    }
+    
+}
