@@ -1,0 +1,65 @@
+#include<iostream>
+#include<vector>
+#include<climits>
+using namespace std;
+class Edge{
+    public:
+    int source;
+    int dest;
+    int wt;
+    Edge(int sc,int destination,int weight){
+       source=sc;
+        dest=destination;
+        wt=weight;
+    }
+
+};
+class GraphAlgo{
+    
+    public:
+    int node;
+    vector<Edge> edges;
+    GraphAlgo(int nodes){
+        node=nodes;
+    }
+void addEdge(int sc,int dest,int wt){
+    edges.push_back(Edge(sc,dest,wt));
+
+}
+void bellMan(int start){
+    vector<int> dis( node, INT_MAX);
+     dis[start]=0;
+     for (int i = 0; i < node-1; i++)
+     {
+        for ( Edge e:edges)
+    {
+            int curr=e.source;
+            int dst=e.dest;
+            int weight=e.wt;
+            if (dis[curr]+weight<dis[dst])
+            {
+                dis[dst]=dis[curr]+weight;
+            }
+            
+        }
+        
+     }
+      cout << "Shortest distances from node " << start << ":\n";
+        for (int i = 0; i < node; i++) {
+            cout << "Node " << i << " -> Distance: " << dis[i] << endl;
+        }
+
+}
+};
+int main(){
+    GraphAlgo g(5);
+     g.addEdge(0, 1, -7);
+    g.addEdge(0, 2, -4);
+    g.addEdge(1, 2, 1);
+    g.addEdge(1, 3, -2);
+    g.addEdge(2, 3, 6);
+    g.addEdge(0, 4, 4); 
+    g.addEdge(4, 1 ,2);
+
+    g.bellMan(0);
+}
