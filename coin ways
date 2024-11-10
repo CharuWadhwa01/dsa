@@ -1,0 +1,23 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int coin(int N,vector<int>coins){
+    vector<int>arr(N+1,0);
+    arr[0]=1;
+    for (int i:coins)
+    {
+        for (int amount = i; amount<=N;amount++)
+        {
+            arr[amount]=arr[amount]+arr[amount-i];
+            cout<<arr[amount]<<endl;
+        }   
+    }
+    return arr[N];
+}
+int main(){
+    vector<int>coins={1,2,3};
+   int ways= coin(10,coins);
+    cout<<"no of ways"<<ways<<endl;
+    return 0;
+}
