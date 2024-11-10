@@ -1,0 +1,65 @@
+#include<iostream>
+using namespace std;
+void mergesort(int arr[],int len,int f,int l,int mid){
+    int n1=mid-f+1;
+    int n2=l-mid;
+    int *temp1=new int[n1];
+     int *temp2=new int[n2];
+     for (int i = 0; i < n1; i++)
+     {
+        temp1[i]=arr[f+i];
+     }
+     for (int i = 0; i < n2; i++)
+     {
+        temp2[i]=arr[mid+1+i];
+     }
+     int i=0,j=0,k=f;
+     while (i<n1&j<n2)
+     {
+        if (temp1[i]<=temp2[j])
+        {
+            arr[k]=temp1[i];
+            i++;
+        }
+        else
+        {
+            arr[k]=temp2[j];
+            j++;
+            }
+            k++;
+            }
+             while (i < n1) {
+        arr[k] = temp1[i];
+        i++;
+        k++;
+    }
+
+        while (j<n2)
+        {
+            arr[k]=temp2[j];
+            j++;
+            k++;
+        }  
+
+     }
+
+     void sort(int arr[],int len,int f,int l){
+        if (f<l)
+        {
+             int mid=f+(l-f)/2;
+            sort(arr,len,f,mid);
+            sort(arr,len,mid+1,l);
+            mergesort(arr,len,f,l,mid);
+            
+        }
+        }   
+
+int main(){
+    int arr[]={10,50,78,4,67,34};
+    int len=sizeof(arr)/sizeof(arr[0]);
+    sort(arr,len,0,len-1);
+    for (int i = 0; i < len; i++) {
+        cout << arr[i] <<endl;
+    }
+    
+}
