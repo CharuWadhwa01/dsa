@@ -1,0 +1,221 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+
+
+class Node{
+    public:
+    int val;
+    Node *left;
+    Node *right;
+    Node(int value){
+        val=value;
+        right=nullptr;
+        left=nullptr;
+    }
+};
+class BST{
+    public:
+    Node*insert(Node*root,int value){
+         if (root==nullptr)
+        {
+            return new Node(value);
+        }
+  if (root->val==value)
+        {
+            return root;
+        }
+  if (root->val>value)
+        {
+            root->left=insert(root->left,value);
+        }
+     else{
+           root->right=insert(root->right,value);
+     }
+    }
+     Node*search(Node*root,int value){
+        if (root->val==value)
+        {
+            return root;
+        }
+        if (root->val>value)
+        {
+            return search(root->left,value);
+        }
+        else
+        {
+           return search(root->right,value);
+        }  
+     }
+    Node* deleteNode(Node* root, int value) {
+        if (root == nullptr)
+         return root;
+        if ( root->val>value) {
+            root->left = deleteNode(root->left, value);
+        } 
+        else if ( root->val<value) {
+            root->right = deleteNode(root->right, value);
+        }
+         else {
+            if (root->left == nullptr) {
+                Node* temp = root->right;
+                delete root;
+                return temp;
+            } else if (root->right == nullptr) {
+                Node* temp = root->left;
+                delete root;
+                return temp;
+          }    
+        Node* sucessor=sc(root->right);
+        root->val=sucessor->val;
+        root->right=deleteNode(root->right,sucessor->val);
+}
+return root;
+    }
+Node*sc(Node*root){
+    while (root->left!=nullptr)
+    {
+    root=root->left;
+    }
+    return root;
+}
+    
+};
+class BinaryTree{
+    public:
+    int index=-1;
+    Node* buildPre(vector<int>&nodes){
+        index++;
+        if (index>=nodes.size()||nodes[index]==-1)
+        {
+            return nullptr;
+        }
+       Node *newNode=new Node (nodes[index]);
+       newNode->left=buildPre(nodes);
+        newNode->right=buildPre(nodes);
+        return newNode;
+
+    }
+    void preOrder(Node* root){
+        if (root==nullptr)
+        {
+            return;
+        }
+     
+        cout<<root->val<<endl;
+ preOrder(root->left);
+    preOrder(root->right);
+    }
+    void inOrder(Node* root,vector<int>&values){
+        if (root==nullptr)
+        {
+            return;
+        }
+   inOrder(root->left,values);
+   values.push_back(root->val);
+    inOrder(root->right,values);
+    }
+
+       void postOrder(Node* root){
+        if (root==nullptr)
+        {
+            return;
+        }
+     
+   
+     postOrder(root->left);
+    postOrder(root->right);
+     cout<<root->val<<endl;
+       }
+    
+void levelOrder(Node* root){
+if (root==nullptr)
+        {
+            return;
+        }
+        queue<Node*>que;
+        que.push(root);
+        while(!que.empty()){
+            Node *front=que.front();
+            que.pop();
+            cout<<front->val<<endl;
+            if (front->left!=nullptr)
+            {
+                que.push(front->left);
+            }
+            if (front->right!=nullptr)
+            {
+                que.push(front->right);
+            }
+            
+        }
+}
+int count(Node* root){
+if (root==nullptr)
+{
+return 0;
+}
+int left=count(root->left);
+int right=count(root->right);
+return left+right+1;
+}
+
+int sum_of_all_nodes(Node*root){
+    if (root==nullptr)
+    {
+        return 0;
+    }
+return root->val+sum_of_all_nodes(root->left)+sum_of_all_nodes(root->right);
+}
+};
+
+int main() {  
+    Node* root = nullptr; 
+     BST tree1;
+root = tree1.insert(root, 10); 
+root = tree1.insert(root, 4);
+ root = tree1.insert(root, 6);
+ root = tree1.insert(root, 3);
+ root = tree1.insert(root, 12);
+root = tree1.insert(root, 9);
+/*Node* searchvalue=tree1.search(root, 6);
+if (searchvalue!=nullptr)
+{
+    cout<<"found"<<searchvalue->val<<endl;
+}
+else
+{
+    cout<<"not found"<<endl;
+}*/
+// root=tree1.deleteNode(root,3);
+
+   // /vector<int> nodes = {4,6,-1,-1,3,7,2,9};
+    BinaryTree tree;
+// Node* root = tree.buildPre(nodes);
+    /*vector<int>inorderValues;
+    tree.inOrder(root,inorderValues);
+      if (!inorderValues.empty()) {
+        cout << "Minimum value: " << inorderValues[0] << endl;
+       cout<<"largest value:"<<inorderValues[inorderValues.size()-1]<<endl;
+        cout<<" second largest value:"<<inorderValues[inorderValues.size()-2]<<endl;
+    }
+  // cout<<"preorder"<<endl;
+   // tree.preOrder(root);
+    cout << "inorder" << endl;
+    for(int val : inorderValues) {
+        cout << val << endl;
+    }
+    /*cout<<"postorder"<<endl;
+    tree.postOrder(root);
+     cout<<"levelorder"<<endl;
+     tree.levelOrder(root);
+     int numberofnodes=tree.count(root) ;
+     cout<<"nodes no is"<<numberofnodes<<endl;
+     return 0;*/
+    int sum= tree.sum_of_all_nodes(root);
+     cout<<"sum of nodes :"<<sum<<endl;
+
+
+     return 0;
+}
