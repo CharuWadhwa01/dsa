@@ -1,0 +1,95 @@
+#include<iostream>
+#include<chrono>
+using namespace std;
+using namespace std::chrono;
+
+// Merging function
+void mergesort(int arr[], int f, int l, int mid) {
+    int n1 = mid - f + 1;
+    int n2 = l - mid;
+
+    int *temp1 = new int[n1];
+    int *temp2 = new int[n2];
+
+    // Copying elements to temporary arrays
+    for (int i = 0; i < n1; i++) {
+        temp1[i] = arr[f + i];
+    }
+    for (int i = 0; i < n2; i++) {
+        temp2[i] = arr[mid + 1 + i];
+    }
+
+    // Merging temporary arrays back to arr
+    int i = 0, j = 0, k = f;
+    while (i < n1 && j < n2) {
+        if (temp1[i] <= temp2[j]) {
+            arr[k] = temp1[i];
+            i++;
+        } else {
+            arr[k] = temp2[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copy remaining elements of temp1[], if any
+    while (i < n1) {
+        arr[k] = temp1[i];
+        i++;
+        k++;
+    }
+
+    // Copy remaining elements of temp2[], if any
+    while (j < n2) {
+        arr[k] = temp2[j];
+        j++;
+        k++;
+    }
+
+    // Free allocated memory
+    delete[] temp1;
+    delete[] temp2;
+}
+
+// Recursive sort function
+void sort(int arr[], int f, int l) {
+    if (f < l) {
+        int mid = f + (l - f) / 2;
+        sort(arr, f, mid);
+        sort(arr, mid + 1, l);
+        mergesort(arr, f, l, mid);
+    }
+}
+
+int main() {
+    int arr[10];
+    int len = 5;
+
+    // Taking array input from the user
+    cout << "Enter " << len << " elements in the array: ";
+    for (int i = 0; i < len; i++) {
+        cin >> arr[i];
+    }
+
+    // Start time before the sorting
+    auto start = high_resolution_clock::now();
+
+    // Calling the sort function
+    sort(arr, 0, len - 1);
+
+    // End time after sorting
+    auto end = high_resolution_clock::now();
+
+    // Calculate and print the duration
+    auto duration = duration_cast<microseconds>(end - start);
+    cout << "Execution time: " << duration.count() << " microseconds" << endl;
+
+    // Display sorted array
+    cout << "Sorted array: ";
+    for (int i = 0; i < len; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
